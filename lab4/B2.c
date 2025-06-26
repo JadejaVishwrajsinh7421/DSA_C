@@ -21,6 +21,7 @@ void main()
             if (arr[i] == arr[j])
             {
                 int ind = j;
+                
                 for (int k = ind; k < size - 1; k++)
                 {
                     arr[k] = arr[k + 1];
