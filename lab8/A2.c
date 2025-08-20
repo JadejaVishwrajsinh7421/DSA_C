@@ -67,6 +67,37 @@ void display()
     }
 }
 
-void main(){
-    
+void main()
+{
+
+    int choice;
+
+    while (1)
+    {
+        printf("\n--- Queue Menu ---\n");
+        printf("1. Enqueue\n");
+        printf("2. Dequeue\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+        case 1:
+            cqinsert();
+            break;
+        case 2:
+            cqdelete();
+            break;
+        case 3:
+            display();
+            break;
+        case 4:
+            printf("Exiting program...\n");
+            exit(0);
+        default:
+            printf("Invalid choice! Please try again.\n");
+        }
+    }
 }
