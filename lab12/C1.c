@@ -11,7 +11,6 @@ struct node
 
 struct node *first = NULL;
 
-int count = 0;
 void insertAtFirst()
 {
     int x;
@@ -21,27 +20,30 @@ void insertAtFirst()
     newNode->info = x;
     newNode->link = first;
     first = newNode;
-    count++;
+    (*count++);
+    
 }
 
-// void swapData1()
-// {
-//     int i = 0;
-//     printf("enter the kth number from beginning to change to the end");
-//     scanf("%d", &i);
-//     struct node *save = first;
-//     while (save->link != NULL)
-//     {
-//         if (i == (count - i + 1))
-//         {
-//             save-
-//             break;
-//         }
-//         save= save->link;
-//         i++;
-//     }
-// }
+void swapData1()
+{
+    int i = 0;
+    printf("enter the kth number from beginning ");
+    scanf("%d", &i);
+    struct node *save1 = first;
+    for(int i=1;i<k;i++){
+        save1=save1->link;
+    }
+    struct node *save2 = first;
+    for(int i=1;i<*(count)-k+1)
+//    baaki che
+
+
+
+}
+       
+
 
 void main()
 {
+    int count =0;
 }

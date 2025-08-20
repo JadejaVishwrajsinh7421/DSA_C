@@ -21,7 +21,6 @@ scanf("%d",&n);
         *ptr2 = 9;
         printf("a:%d",*ptr2);
 
-
     }
     free(ptr);
     free(ptr1);
