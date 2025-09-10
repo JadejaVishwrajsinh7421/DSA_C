@@ -22,8 +22,8 @@ void insert(int data, int priority)
     }
     else if (front == -1)
     {
-        front = 0;
-        rear = 0;
+        front++;
+        rear++;
         Proi[rear].data = data;
         Proi[rear ].priority= priority;
         return;
@@ -104,7 +104,7 @@ void display()
 {
     for (int i = front; i <= rear; i++)
     {
-        printf("| %d |\n", Proi[i]);
+        printf("| %d |\n", Proi[i].data);
     }
 }
 void main()

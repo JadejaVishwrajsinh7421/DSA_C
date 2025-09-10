@@ -1,145 +1,110 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// split circular list in two halves
-
 struct node
 {
     int info;
     struct node *link;
 };
 
-
 struct node *first = NULL;
 struct node *last = NULL;
-struct node *first1 = NULL;
-struct node *last1 = NULL;
-
-void insertAtFirst()
-{
-    int x;
-    printf("Enter number to insert at front: ");
-    scanf("%d", &x);
-
-    struct node *newNode = (struct node *)malloc(sizeof(struct node));
-    newNode->info = x;
-    newNode->link = first;
-    if (first == NULL)
-    {
-        first = last = newNode;
-        return;
-    }
-    first = newNode;
-    last->link = first;
-}
+struct node *first2 = NULL;
+struct node *last2 = NULL;
 
 void insertAtEnd()
 {
     int x;
     printf("Enter number to insert at end: ");
     scanf("%d", &x);
+
     struct node *newNode = (struct node *)malloc(sizeof(struct node));
     newNode->info = x;
     newNode->link = NULL;
 
     if (first == NULL)
     {
-        first = newNode;
         first = last = newNode;
+        last->link = first; // make it circular
         return;
     }
+
     newNode->link = first;
     last->link = newNode;
-   
     last = newNode;
 }
 
-void display() {
-    if (first == NULL) {
-        printf("Linked list is empty.\n");
+void display(struct node *first)
+{
+    if (first == NULL)
+    {
+        printf("List is empty.\n");
         return;
     }
     struct node *temp = first;
-    printf("The nodes are:\n");
-
+    printf("Nodes: ");
     do
     {
         printf("%d -> ", temp->info);
         temp = temp->link;
     } while (temp != first);
-    
-    printf("%d",first->info);
+    printf("(back to %d)\n", first->info);
 }
 
-int  count() {
-    int count = 0;
-    struct node *temp = first;
-
-    while (temp != NULL) {
-        count++;
-        temp = temp->link;
+struct node* split() {
+    if (first == NULL || first->link == first) {
+        printf("Not enough elements to split.\n");
+        return NULL;
     }
-    return count;
-   
+
+    struct node* slow = first;
+    struct node* fast = first;
+
+    // Use slow-fast with CSLL condition
+    while (fast->link != first && fast->link->link != first) {
+        slow = slow->link;
+        fast = fast->link->link;
+    }
+
+    struct node* first2 = slow->link; // start of second half
+
+    // Make first half circular
+    slow->link = first;
+
+    // Make second half circular
+    struct node* curr = first2;
+    while (curr->link != first) {
+        curr = curr->link;
+    }
+    curr->link = first2;
+
+    return first2; // return head of second half
 }
 
-void seperate(){
-    int n = count();
-    if(first == NULL || n < 2) {
-        printf("List too small to split\n");
-        return;
-    }
-
-    if(n%2==0){
-        struct node *temp;
-        int counter = 0;
-        while(counter < n / 2) {
-            struct node *newnode = (struct node *)malloc(sizeof(struct node));
-            newnode->info = first->info;
-
-            if(first1 == NULL) {
-                newnode->link = newnode;
-                first1 = last1 = newnode;
-            } else {
-                newnode->link = first1;
-                last1->link = newnode;
-                last1 = newnode;
-            }
-            temp = first;
-            first = first->link;
-            last->link = first;
-            free(temp);
-
-            counter++;
-        }
-    }
-}
-void main(){
-
+int main()
+{
     int choice;
     while (1)
     {
-        printf("\n1. Insert at front\n2. Insert at end\n3. Display\n4. Split circular linked list\n5. Exit\n");
-        printf("Enter your choice: ");
+        printf("\n1. Insert at end\n2. Display\n3. Split circular linked list\n4. Exit\n");
+        printf("Enter choice: ");
         scanf("%d", &choice);
         switch (choice)
         {
         case 1:
-            insertAtFirst();
-            break;
-        case 2:
             insertAtEnd();
             break;
+        case 2:
+            display(first);
+            break;
         case 3:
-            display();
+            split();
             break;
         case 4:
-            seperate();
-            break;
-        case 5:
             exit(0);
         default:
-            printf("Invalid choice! Please try again.\n");
+            printf("Invalid choice!\n");
         }
     }
+    return 0;
 }

@@ -1,61 +1,96 @@
-#include <stdio.h>
-#include <stdlib.h>
+// 35. How stack can be used to recognize strings aca, bcb, abcba, abbcbba? Write a program to solve the above problem.
 
-#define size 100
-//  How stack can be used to recognize strings aca, bcb, abcba, abbcbba? Write a program to solve the above problem.
-char stack[size];
+#include <stdio.h>
+
+char stack[100];
+int size = 100;
 int top = -1;
 
-void push()
+void push(char ch)
 {
     if (top >= size - 1)
     {
-        printf("Stack Overflow!\n");
+        printf("Stack Overflow.\n");
         return;
     }
-    char data;
-    printf("Enter the element to push: ");
-    scanf("%[^\n]", &data);
-    stack[++top] = data;
+    stack[++top] = ch;
+    // printf("Pushed %c\n", ch);
 }
 
-void check(char str[])
+void pop()
 {
+    if (top == -1)
+    {
+        printf("Stack Underflow.\n");
+        return;
+    }
+    top--;
+    // printf("Popped element is: %c\n", stack[top--]);
+}
+
+void display()
+{
+    if (top == -1)
+    {
+        printf("Stack is empty\n");
+        return;
+    }
+    printf("Stack elements (Top to Bottom):\n");
+    for (int i = top; i >= 0; i--)
+    {
+        printf("%c\n", stack[i]);
+    }
+}
+
+void validString(char str[])
+{
+
     int i = 0;
-    stack[++top] = 'c';
-    while (str[i] != 'c')
+
+   // Push characters until 'c' is found
+    while (str[i] != '\0' && str[i] != 'c')
     {
-        if
+        push(str[i]);
+        i++;
+    }
+
+    if (str[i] != 'c')
+    {
+        // 'c' not found
+        printf("its Not Valid String.");
+        return ;
+    }
+    i++;
+
+    while(str[i] != '\0'){
+        if(str[i] == stack[top]){
+            pop();            
+        }
+         else {
+        // If not matching, it's an invalid string
+        printf("its Not Valid String.\n");
+        return;
+    }
+
+        i++;
+    }
+
+    if (top == -1)
+    {
+        printf("Its Valid Valid String. %s", str);
+    }
+    else
+    {
+        printf("its Not Valid String.");
     }
 }
 
-char pop()
-{
-    if (top <= -1)
-    {
-        printf("Stack Underflow!\n");
-        return -1;
-    }
-    return stack[top--];
-}
+void main(){
 
-// void display() {
-//     if (top == -1) {
-//         printf("Stack is empty.\n");
-//         return;
-//     }
-//     printf("Stack contents (top to bottom):\n");
-//     for (int i = top; i >= 0; i--) {
-//         printf("| %d |\n", stack[i]);
-//     }
-// }
+    char str[100];
 
-int main()
-{
-    char str[size];
-    printf("enter the string of grammar");
-    scanf("%[^\n]", &str);
+    printf("Enter String.\n");
+    scanf("%s", str);
 
-    check(str[size]);
-    return 0;
+    validString(str);
 }

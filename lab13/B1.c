@@ -47,7 +47,6 @@ void insertgcd()
       newNode->info = gcdNumber(save->info,save->link->info);
       newNode->link = save->link;
       save->link = newNode;
-      save->link=
       save = save->link->link;
     }    
 }

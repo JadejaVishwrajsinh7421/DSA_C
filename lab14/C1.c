@@ -1,186 +1,126 @@
+
+// 71. Write a program to perform addition of two polynomial equations using 
+// appropriate data structure. 
+
 #include <stdio.h>
 #include <stdlib.h>
-// Write a program to perform addition of two polynomial equations using appropriate data structure.
 
-struct node
+struct Node
 {
-    int info;
-    struct node *link;
+    int data;
+    struct Node *next;
 };
 
-struct node *first1 = NULL;
-struct node *last1 = NULL;
-struct node *first2 = NULL;
-struct node *last2 = NULL;
-struct node *Nfirst = NULL;
-struct node *Nlast = NULL;
-
-int power1 = 0;
-int power2 = 0;
-
-void insertAtEnd(int temp)
+struct Node *insertAtFirst(struct Node *head, int x)
 {
-    if (temp == 1)
-    {
-        printf("enter power of polynomial1 :\n");
-        scanf("%d", &power1);
-        for (int i = 0; i <= power1; i++)
-        {
-            int x;
-            printf("Enter coefficent of x^%d: ", i + 1);
-            scanf("%d", &x);
-            struct node *newNode = (struct node *)malloc(sizeof(struct node));
-            newNode->info = x;
-            newNode->link = NULL;
 
-            if (first1 == NULL)
-            {
-                first1 = newNode;
-                first1 = last1 = newNode;
-                return;
-            }
-            newNode->link = first1;
-            last1->link = newNode;
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
 
-            last1 = newNode;
-        }
-    }
+    newNode->data = x;
+    newNode->next = head;
 
-    else
-    {
-        printf("enter power of polynomial2 :\n");
-        scanf("%d", &power2);
-        for (int i = 0; i <= power2; i++)
-        {
-            int x;
-            printf("Enter coefficent of x^%d: ", i + 1);
-            scanf("%d", &x);
-            struct node *newNode = (struct node *)malloc(sizeof(struct node));
-            newNode->info = x;
-            newNode->link = NULL;
+    head = newNode;
 
-            if (first2 == NULL)
-            {
-                first2 = newNode;
-                first2 = last2 = newNode;
-                return;
-            }
-            newNode->link = first2;
-            last2->link = newNode;
-
-            last2 = newNode;
-        }
-    }
+    return head;
 }
 
-void display(int temp)
+struct Node *insertAtLast(struct Node *head, int x)
 {
-    if (temp = 1)
+
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+
+    newNode->data = x;
+    newNode->next = NULL;
+
+    if (head == NULL)
     {
-        if (first1 == NULL)
-        {
-            printf("Linked list is empty.\n");
-            return;
-        }
-        struct node *save1 = first1;
-        printf("The nodes are:\n");
-
-        do
-        {
-            printf("%d -> ", save1->info);
-            save1 = save1->link;
-        } while (save1 != first);
-
-        printf("%d", save1->info);
+        head = newNode;
+        return head;
     }
 
-    else if (temp = 2)
-    {
-        if (first2 == NULL)
-        {
-            printf("Linked list is empty.\n");
-            return;
-        }
-        struct node *save2 = first2;
-        printf("The nodes are:\n");
+    struct Node *curr = head;
 
-        do
-        {
-            printf("%d -> ", save2->info);
-            save2 = save2->link;
-        } while (save2 != first2);
-
-        printf("%d", save2->info);
-    }
-    // resultant newlist 
-    else
+    while (curr->next != NULL)
     {
+
+        curr = curr->next;
     }
+
+    curr->next = newNode;
+
+    return head;
 }
 
-void addpolynomial()
+void display(struct Node *head)
 {
-    struct node *save1 =first1;
-    struct node *save2 =first2;
 
-    if (power1 > power2)
+    struct Node *curr = head;
+
+    if (curr == NULL)
     {
-        //    struct node *newNode = (struct node *)malloc(sizeof(struct node));
-        //     newNode->info = save1->info;
-        //     newNode->link = save1->link;
+        printf("List Is Empty\n");
+        return;
+    }
+
+    while (curr != NULL)
+    {
+        printf("%d -> ", curr->data);
+        curr = curr->next;
+    }
+    printf("NULL\n");
+}
+
+struct Node* addPoly(struct Node* poly1 , struct Node* poly2 , struct Node* res){
+
+    if(poly1==NULL && poly2==NULL){
+        return NULL;
+    }
+
+    struct Node* curr=poly1;
+    struct Node* curr2=poly2;
+
+    
+    while(curr!=NULL || curr2!=NULL){
+        int sum = 0;
+
+        sum+=((curr!=NULL)?(curr->data):(0)) + ((curr2!=NULL)?(curr2->data):(0));
+        res = insertAtLast(res,sum);
+
+        if(curr!=NULL){
             
-        //     if (Nfirst == NULL)
-        //     {
-        //         Nfirst = newNode;
-        //         Nfirst = Nlast = newNode;
-        //         return;
-        //     }
-        //     newNode->link = Nfirst;
-        //     Nlast->link = newNode;
+            curr = curr->next;
+        }
 
-        //     Nlast = newNode;
+        if(curr2!=NULL){
 
+            curr2= curr2->next;
 
-       
-        
+        }
+
     }
+
+    return res;
 }
 
 void main()
 {
-    int choice;
-    while (1)
-    {
-        printf("\n1. Insert polynomial 1\n2. Insert at polynomial 2\n3. Display 1\n4. Display 2\n5.addpolynomial\n6.display result polynomial\n6. Exit\n");
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
-        switch (choice)
-        {
-        case 1:
-            insertAtEnd(1);
-            break;
-        case 2:
-            insertAtEnd(2);
-            break;
-        case 3:
-            display(1);
-            break;
-        case 4:
-            display(2);
-            break;
 
-        case 5:
-            addpolynomial();
-            break;
+    struct Node *h1 = NULL;
+    struct Node *h2 = NULL;
+    struct Node *res = NULL;
 
-        case 6:
-            display(3);
-            break;
+  h1 = insertAtLast(h1,1);
+  h1 = insertAtLast(h1,2);
+  h1 = insertAtLast(h1,3);
+  h1 = insertAtLast(h1,3);
 
-        case 7:
-            exit(0);
-        default:
-            printf("Invalid choice! Please try again.\n");
-        }
-    }
+  h2 = insertAtLast(h2,2);
+  h2 = insertAtLast(h2,1);
+  h2 = insertAtLast(h2,3);
+
+  display(h1);
+  display(h2);
+  
+  res = addPoly(h1,h2,res);
+  display(res);
 }
