@@ -1,6 +1,4 @@
 #include <stdio.h>
-
-
 // You are given an array of positive integers and an integer K. Find the length of 
 // the longest subarray such that the sum of the subarray is less than or equal to K. 
 // Input: 
